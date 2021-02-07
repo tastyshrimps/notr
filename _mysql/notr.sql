@@ -1,8 +1,8 @@
--- MariaDB dump 10.17  Distrib 10.4.14-MariaDB, for Win64 (AMD64)
+-- MariaDB dump 10.18  Distrib 10.4.17-MariaDB, for Win64 (AMD64)
 --
 -- Host: localhost    Database: notr
 -- ------------------------------------------------------
--- Server version	10.4.14-MariaDB
+-- Server version	10.4.17-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -56,7 +56,7 @@ CREATE TABLE `notizen` (
   `deleted` tinyint(1) NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,6 +65,7 @@ CREATE TABLE `notizen` (
 
 LOCK TABLES `notizen` WRITE;
 /*!40000 ALTER TABLE `notizen` DISABLE KEYS */;
+INSERT INTO `notizen` VALUES (1,'Testtitel',0,NULL,NULL,0,'2021-01-21 10:41:40'),(2,'Testtitel2123',0,NULL,NULL,0,'2021-01-17 10:41:40');
 /*!40000 ALTER TABLE `notizen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,6 +91,7 @@ CREATE TABLE `notizen-tags` (
 
 LOCK TABLES `notizen-tags` WRITE;
 /*!40000 ALTER TABLE `notizen-tags` DISABLE KEYS */;
+INSERT INTO `notizen-tags` VALUES (1,1),(2,2);
 /*!40000 ALTER TABLE `notizen-tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,6 +116,7 @@ CREATE TABLE `notizen-text` (
 
 LOCK TABLES `notizen-text` WRITE;
 /*!40000 ALTER TABLE `notizen-text` DISABLE KEYS */;
+INSERT INTO `notizen-text` VALUES (1,1),(2,2),(2,3);
 /*!40000 ALTER TABLE `notizen-text` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +131,7 @@ CREATE TABLE `tags` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(25) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,6 +140,7 @@ CREATE TABLE `tags` (
 
 LOCK TABLES `tags` WRITE;
 /*!40000 ALTER TABLE `tags` DISABLE KEYS */;
+INSERT INTO `tags` VALUES (1,'test'),(2,'arbeit');
 /*!40000 ALTER TABLE `tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +155,7 @@ CREATE TABLE `text` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `section` text NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +164,7 @@ CREATE TABLE `text` (
 
 LOCK TABLES `text` WRITE;
 /*!40000 ALTER TABLE `text` DISABLE KEYS */;
-INSERT INTO `text` VALUES (1,'Ich habe Hunger.'),(2,'Ich habe Hunger.');
+INSERT INTO `text` VALUES (1,'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam'),(2,'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyamdfgdfgdfg'),(3,'test'),(4,'Simon Test');
 /*!40000 ALTER TABLE `text` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -173,4 +177,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-07 16:36:13
+-- Dump completed on 2021-02-07 16:40:56
