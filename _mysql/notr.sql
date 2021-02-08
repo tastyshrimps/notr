@@ -27,7 +27,8 @@ CREATE TABLE `dateien` (
   `ID-notizen` int(11) NOT NULL,
   `datei` blob NOT NULL,
   PRIMARY KEY (`ID`),
-  KEY `ID-notizen` (`ID-notizen`)
+  KEY `ID-notizen` (`ID-notizen`),
+  CONSTRAINT `FK_dateien_notizen` FOREIGN KEY (`ID-notizen`) REFERENCES `notizen` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -81,7 +82,9 @@ CREATE TABLE `notizen-tags` (
   `ID-notizen` int(11) NOT NULL,
   PRIMARY KEY (`ID-tags`,`ID-notizen`),
   KEY `ID-tags` (`ID-tags`),
-  KEY `ID-notizen` (`ID-notizen`)
+  KEY `ID-notizen` (`ID-notizen`),
+  CONSTRAINT `FK_notizen-tags_notizen` FOREIGN KEY (`ID-notizen`) REFERENCES `notizen` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_notizen-tags_tags` FOREIGN KEY (`ID-tags`) REFERENCES `tags` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -106,7 +109,10 @@ CREATE TABLE `notizen-text` (
   `ID-notizen` int(11) NOT NULL,
   `ID-text` int(11) NOT NULL,
   PRIMARY KEY (`ID-notizen`,`ID-text`),
-  KEY `ID-notizen` (`ID-notizen`,`ID-text`)
+  KEY `ID-notizen` (`ID-notizen`,`ID-text`),
+  KEY `FK_notizen-text_text` (`ID-text`),
+  CONSTRAINT `FK_notizen-text_notizen` FOREIGN KEY (`ID-notizen`) REFERENCES `notizen` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_notizen-text_text` FOREIGN KEY (`ID-text`) REFERENCES `text` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -177,4 +183,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-07 16:40:56
+-- Dump completed on 2021-02-08 11:52:21
