@@ -30,11 +30,12 @@
 
 
 <body>
-    <h1>NOTR - Note Repository</h1>
+	<img src="img/logo.png" alt="Logo" style="max-width: 200px"></img>
+    
     <form> 
         <input type="text" id="search" name="search"><br>
         <button type="submit">Search</button>
-        <button type="reset">Create</button>
+        <a href="notr_create?title=<?php $_GET['search'];?>"><button>Create</button></a>
      </form>
 <br><br>
 
@@ -42,12 +43,16 @@
     $sql = "SELECT * FROM notizen";
     foreach ($db->query($sql) as $row) 
     {
-         echo $row['title']."<button>Edit</button><button>Delete</button><br />";   
+        echo $row['title'].'<a href="notr_edit?id='.$row['ID'].'"><button>Edit</button></a>
+		<a href="notr_delete?id='.$row['ID'].'"><button>Delete</button></a><br />'; 
+
+		
+		
     }
 ?>
 
 <footer>
-	  <p class="rechts">&copy; NOTR GmbH</p>
+	  <p class="rechts">&copy; NOTR 2021</p>
 	</footer>
 </body>
 
