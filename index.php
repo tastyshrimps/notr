@@ -30,7 +30,7 @@
 
 
 <body>
-	<img src="img/logo.png" alt="Logo" style="max-width: 200px"></img>
+	<a href="index.php"><img src="img/logo.png" alt="Logo" style="max-width: 200px"></img></a>
     
     <form method="get" action="/git/notr/notr_result.php"> 
         <input type="text" id="search" name="search"><br>
