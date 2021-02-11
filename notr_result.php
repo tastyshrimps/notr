@@ -32,22 +32,21 @@
 <body>
 	<img src="img/logo.png" alt="Logo" style="max-width: 200px"></img>
     
-    <form method="get" action="/git/notr/notr_result.php"> 
+    <form> 
         <input type="text" id="search" name="search"><br>
-        <!--<a href="notr_result?title=<?php $_GET['search'];?>"><button>Search</button></a>-->
-		<button type="submit">Search</button>
+        <a href="notr_result.php"><button>Search</button></a>
 		
-		
-        <!--<a href="notr_create?title=<?php $_GET['search'];?>"><button>Create</button></a>-->
+        <a href="notr_create?title=<?php $_GET['search'];?>"><button>Create</button></a>
      </form>
-	 
-	 <form method="get" action="/git/notr/notr_create.php?search=<?php $_GET['search'];?>">
-		<button type="submit">Create</button>
-	 </form>
 <br><br>
 
-<?php
-    $sql = "SELECT * FROM notizen";
+<?php		
+	$sql = "SELECT * 
+			FROM notizen a 
+			JOIN notizen_text b 	ON a.ID=b.ID_notizen  
+			JOIN text c 			ON c.ID=b.ID_text
+			WHERE c.section LIKE '%".$_GET['search']."%'";
+			
     foreach ($db->query($sql) as $row) 
     {
         echo $row['title'].'<a href="notr_edit?id='.$row['ID'].'"><button>Edit</button></a>
