@@ -71,13 +71,13 @@ INSERT INTO `notizen` VALUES (1,'Testtitel',0,NULL,NULL,0,'2021-01-21 10:41:40')
 UNLOCK TABLES;
 
 --
--- Table structure for table `notizen-tags`
+-- Table structure for table `notizen_tags`
 --
 
-DROP TABLE IF EXISTS `notizen-tags`;
+DROP TABLE IF EXISTS `notizen_tags`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `notizen-tags` (
+CREATE TABLE `notizen_tags` (
   `ID-tags` int(11) NOT NULL,
   `ID-notizen` int(11) NOT NULL,
   PRIMARY KEY (`ID-tags`,`ID-notizen`),
@@ -89,41 +89,41 @@ CREATE TABLE `notizen-tags` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `notizen-tags`
+-- Dumping data for table `notizen_tags`
 --
 
-LOCK TABLES `notizen-tags` WRITE;
-/*!40000 ALTER TABLE `notizen-tags` DISABLE KEYS */;
-INSERT INTO `notizen-tags` VALUES (1,1),(2,2);
-/*!40000 ALTER TABLE `notizen-tags` ENABLE KEYS */;
+LOCK TABLES `notizen_tags` WRITE;
+/*!40000 ALTER TABLE `notizen_tags` DISABLE KEYS */;
+INSERT INTO `notizen_tags` VALUES (1,1),(2,2);
+/*!40000 ALTER TABLE `notizen_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `notizen-text`
+-- Table structure for table `notizen_text`
 --
 
-DROP TABLE IF EXISTS `notizen-text`;
+DROP TABLE IF EXISTS `notizen_text`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `notizen-text` (
-  `ID-notizen` int(11) NOT NULL,
-  `ID-text` int(11) NOT NULL,
-  PRIMARY KEY (`ID-notizen`,`ID-text`),
-  KEY `ID-notizen` (`ID-notizen`,`ID-text`),
-  KEY `FK_notizen-text_text` (`ID-text`),
-  CONSTRAINT `FK_notizen-text_notizen` FOREIGN KEY (`ID-notizen`) REFERENCES `notizen` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_notizen-text_text` FOREIGN KEY (`ID-text`) REFERENCES `text` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `notizen_text` (
+  `ID_notizen` int(11) NOT NULL,
+  `ID_text` int(11) NOT NULL,
+  PRIMARY KEY (`ID_notizen`,`ID_text`),
+  KEY `ID-notizen` (`ID_notizen`,`ID_text`),
+  KEY `FK_notizen-text_text` (`ID_text`),
+  CONSTRAINT `FK_notizen-text_notizen` FOREIGN KEY (`ID_notizen`) REFERENCES `notizen` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_notizen-text_text` FOREIGN KEY (`ID_text`) REFERENCES `text` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `notizen-text`
+-- Dumping data for table `notizen_text`
 --
 
-LOCK TABLES `notizen-text` WRITE;
-/*!40000 ALTER TABLE `notizen-text` DISABLE KEYS */;
-INSERT INTO `notizen-text` VALUES (1,1),(2,2),(2,3);
-/*!40000 ALTER TABLE `notizen-text` ENABLE KEYS */;
+LOCK TABLES `notizen_text` WRITE;
+/*!40000 ALTER TABLE `notizen_text` DISABLE KEYS */;
+INSERT INTO `notizen_text` VALUES (1,1),(2,2),(2,3);
+/*!40000 ALTER TABLE `notizen_text` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -183,4 +183,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-08 12:45:57
+-- Dump completed on 2021-02-11  9:53:01
