@@ -31,32 +31,43 @@
 
 <body>
 	<a href="index.php"><img src="img/logo.png" alt="Logo" style="max-width: 200px"></img></a>
-    
-    <form method="get" action="/git/notr/result.php"> 
-        <input type="text" id="search" name="search"><br>
-        <!--<a href="notr_result?title=<?php $_GET['search'];?>"><button>Search</button></a>-->
-		<button type="submit">Search</button>
-		
-		
-        <!--<a href="notr_create?title=<?php $_GET['search'];?>"><button>Create</button></a>-->
-     </form>
+	<br>
+	
+	<form method="get"> 
+		<a href="index.php">BACK</a>    
+		<a href="edit.php">SAVE</a>  
+		<br>
+        <input type="text" id="title" name="title">
+		<br>
+		<textarea name="text" >Lorem ipsum...</textarea>
+		<br>
+        <input type="text" id="tags" name="tags">
+		<br>		
+    </form>
 	 
-	 <form method="get" action="/git/notr/create.php?search=<?php $_GET['search'];?>">
-		<button type="submit">Create</button>
+
 	 </form>
+	
+<?php
+$sql = "INSERT INTO notizen (title)
+VALUES ('Testtitel5')";
+
+if ($db->query($sql) === TRUE) {
+  echo "New record created successfully";
+} else {
+  echo "Error: " . $sql . "<br>" . $db->error;
+}
+
+$db->close();
+?>
+	
+
+	
+	 
+
 <br><br>
 
-<?php
-    $sql = "SELECT * FROM notizen";
-    foreach ($db->query($sql) as $row) 
-    {
-        echo $row['title'].'<a href="notr_edit?id='.$row['ID'].'"><button>Edit</button></a>
-		<a href="notr_delete?id='.$row['ID'].'"><button>Delete</button></a><br />'; 
 
-		
-		
-    }
-?>
 
 <footer>
 	  <p class="rechts">&copy; NOTR 2021</p>
