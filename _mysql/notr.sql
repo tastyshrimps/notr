@@ -1,8 +1,8 @@
--- MariaDB dump 10.18  Distrib 10.4.17-MariaDB, for Win64 (AMD64)
+-- MariaDB dump 10.17  Distrib 10.4.14-MariaDB, for Win64 (AMD64)
 --
 -- Host: localhost    Database: notr
 -- ------------------------------------------------------
--- Server version	10.4.17-MariaDB
+-- Server version	10.4.14-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -57,7 +57,7 @@ CREATE TABLE `notizen` (
   `deleted` tinyint(1) NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,64 +66,64 @@ CREATE TABLE `notizen` (
 
 LOCK TABLES `notizen` WRITE;
 /*!40000 ALTER TABLE `notizen` DISABLE KEYS */;
-INSERT INTO `notizen` VALUES (1,'Testtitel',0,NULL,NULL,0,'2021-01-21 10:41:40'),(2,'Testtitel2123',0,NULL,NULL,0,'2021-01-17 10:41:40');
+INSERT INTO `notizen` VALUES (1,'Arztermin',0,NULL,NULL,0,'2021-01-21 10:41:40'),(2,'Bestellung',0,NULL,NULL,0,'2021-01-17 10:41:40'),(3,'Essen gehen\r\n',0,NULL,NULL,0,'0000-00-00 00:00:00'),(4,'Einkaufszettel',0,NULL,NULL,0,'0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `notizen` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `notizen-tags`
+-- Table structure for table `notizen_tags`
 --
 
-DROP TABLE IF EXISTS `notizen-tags`;
+DROP TABLE IF EXISTS `notizen_tags`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `notizen-tags` (
-  `ID-tags` int(11) NOT NULL,
-  `ID-notizen` int(11) NOT NULL,
-  PRIMARY KEY (`ID-tags`,`ID-notizen`),
-  KEY `ID-tags` (`ID-tags`),
-  KEY `ID-notizen` (`ID-notizen`),
-  CONSTRAINT `FK_notizen-tags_notizen` FOREIGN KEY (`ID-notizen`) REFERENCES `notizen` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_notizen-tags_tags` FOREIGN KEY (`ID-tags`) REFERENCES `tags` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `notizen_tags` (
+  `ID_tags` int(11) NOT NULL,
+  `ID_notizen` int(11) NOT NULL,
+  PRIMARY KEY (`ID_tags`,`ID_notizen`),
+  KEY `ID-tags` (`ID_tags`),
+  KEY `ID-notizen` (`ID_notizen`),
+  CONSTRAINT `FK_notizen-tags_notizen` FOREIGN KEY (`ID_notizen`) REFERENCES `notizen` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_notizen-tags_tags` FOREIGN KEY (`ID_tags`) REFERENCES `tags` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `notizen-tags`
+-- Dumping data for table `notizen_tags`
 --
 
-LOCK TABLES `notizen-tags` WRITE;
-/*!40000 ALTER TABLE `notizen-tags` DISABLE KEYS */;
-INSERT INTO `notizen-tags` VALUES (1,1),(2,2);
-/*!40000 ALTER TABLE `notizen-tags` ENABLE KEYS */;
+LOCK TABLES `notizen_tags` WRITE;
+/*!40000 ALTER TABLE `notizen_tags` DISABLE KEYS */;
+INSERT INTO `notizen_tags` VALUES (1,1),(2,2);
+/*!40000 ALTER TABLE `notizen_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `notizen-text`
+-- Table structure for table `notizen_text`
 --
 
-DROP TABLE IF EXISTS `notizen-text`;
+DROP TABLE IF EXISTS `notizen_text`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `notizen-text` (
-  `ID-notizen` int(11) NOT NULL,
-  `ID-text` int(11) NOT NULL,
-  PRIMARY KEY (`ID-notizen`,`ID-text`),
-  KEY `ID-notizen` (`ID-notizen`,`ID-text`),
-  KEY `FK_notizen-text_text` (`ID-text`),
-  CONSTRAINT `FK_notizen-text_notizen` FOREIGN KEY (`ID-notizen`) REFERENCES `notizen` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_notizen-text_text` FOREIGN KEY (`ID-text`) REFERENCES `text` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `notizen_text` (
+  `ID_notizen` int(11) NOT NULL,
+  `ID_text` int(11) NOT NULL,
+  PRIMARY KEY (`ID_notizen`,`ID_text`),
+  KEY `ID-notizen` (`ID_notizen`,`ID_text`),
+  KEY `FK_notizen-text_text` (`ID_text`),
+  CONSTRAINT `FK_notizen-text_notizen` FOREIGN KEY (`ID_notizen`) REFERENCES `notizen` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_notizen-text_text` FOREIGN KEY (`ID_text`) REFERENCES `text` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `notizen-text`
+-- Dumping data for table `notizen_text`
 --
 
-LOCK TABLES `notizen-text` WRITE;
-/*!40000 ALTER TABLE `notizen-text` DISABLE KEYS */;
-INSERT INTO `notizen-text` VALUES (1,1),(2,2),(2,3);
-/*!40000 ALTER TABLE `notizen-text` ENABLE KEYS */;
+LOCK TABLES `notizen_text` WRITE;
+/*!40000 ALTER TABLE `notizen_text` DISABLE KEYS */;
+INSERT INTO `notizen_text` VALUES (1,1),(2,2),(3,4),(4,3);
+/*!40000 ALTER TABLE `notizen_text` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -170,7 +170,7 @@ CREATE TABLE `text` (
 
 LOCK TABLES `text` WRITE;
 /*!40000 ALTER TABLE `text` DISABLE KEYS */;
-INSERT INTO `text` VALUES (1,'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam'),(2,'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyamdfgdfgdfg'),(3,'test'),(4,'Simon Test');
+INSERT INTO `text` VALUES (1,'Dienstag 16.2.2021'),(2,'Bestellung Tabletten für Oma'),(3,'Brot\r\nFisch \r\nGemüse'),(4,'Freitag 28.2.2021');
 /*!40000 ALTER TABLE `text` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -183,4 +183,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-12  8:20:12
+-- Dump completed on 2021-02-12  9:57:22

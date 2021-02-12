@@ -33,7 +33,7 @@
 	<a href="index.php"><img src="img/logo.png" alt="Logo" style="max-width: 200px"></img></a>
     
 	
-    <form method="get" action="/git/notr/notr_result.php"> 
+    <form method="get" action="/git/notr/result.php"> 
         <input type="text" id="search" name="search"><br>
         <!--<a href="notr_result?title=<?php $_GET['search'];?>"><button>Search</button></a>-->
 		<button type="submit">Search</button>
@@ -42,7 +42,7 @@
         <!--<a href="notr_create?title=<?php $_GET['search'];?>"><button>Create</button></a>-->
      </form>
 	 
-	 <form method="get" action="/git/notr/notr_create.php?search=<?php $_GET['search'];?>">
+	 <form method="get" action="/git/notr/create.php?search=<?php $_GET['search'];?>">
 		<button type="submit">Create</button>
 	 </form>
 <br><br>
