@@ -53,12 +53,14 @@
 			FROM notizen a 
 			JOIN notizen_text b 	ON a.ID=b.ID_notizen  
 			JOIN text c 			ON c.ID=b.ID_text
-			WHERE c.section LIKE '%".$_GET['search']."%'";
+			WHERE c.section LIKE '%".$_GET['search']."%'
+			OR a.title LIKE '%".$_GET['search']."%'
+			";
 			
     foreach ($db->query($sql) as $row) 
     {
-        echo $row['title'].'<a href="notr_edit?id='.$row['ID'].'"><button>Edit</button></a>
-		<a href="notr_delete?id='.$row['ID'].'"><button>Delete</button></a><br />'; 
+        echo $row['title'].'<a href="edit.php?id='.$row['ID'].'"><button>Edit</button></a>
+		<a href="delete.php?id='.$row['ID'].'"><button>Delete</button></a><br />'; 
 
 		
 		

@@ -50,8 +50,8 @@
     $sql = "SELECT * FROM notizen";
     foreach ($db->query($sql) as $row) 
     {
-        echo $row['title'].'<a href="notr_edit?id='.$row['ID'].'"><button>Edit</button></a>
-		<a href="notr_delete?id='.$row['ID'].'"><button>Delete</button></a><br />'; 
+        echo $row['title'].'<a href="edit.php?id='.$row['ID'].'"><button>Edit</button></a>
+		<a href="delete.php?id='.$row['ID'].'"><button>Delete</button></a><br />'; 
 
 		
 		
