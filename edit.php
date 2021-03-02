@@ -2,13 +2,16 @@
 	<br>
 	<?php 
 		#Inhalt der Felder der vorherigen Seite
-		$save = "0";
-		$title = $_POST["title"];
-		$text = $_POST["text"];
-		$save = $_POST["to_save"];
-		echo "Titel " . $title . " Text ". $text . " Save " . $save;
+		
+		#echo "Titel " . $title . " Text ". $text . " Save " . $save;
 					# isset — Prüft, ob eine Variable deklariert ist und sich von null unterscheidet
-		if($save = "1"){
+		
+		#echo $_POST["to_save"];
+		
+		if($_POST["to_save"] == "1"){
+			$save = $_POST["to_save"];
+			$title = $_POST["title"];
+			$text = $_POST["text"];
 			
 			# Titel und Text speichern, IDs zurückbekommen
 			$sql_title = "INSERT INTO notizen (title)
@@ -24,7 +27,7 @@
 			$db->query($sql_text);
 			$text_id = $db->lastInsertId();				
 
-			echo "NotizID " . $notizen_id . " TextID " . $text_id;
+			#echo "NotizID " . $notizen_id . " TextID " . $text_id;
 			
 			# IDs in Zwischentabelle schreiben				
 			$sql_notizen_text = "INSERT INTO notizen_text (ID_notizen, ID_text) VALUES ($notizen_id, $text_id)";				
@@ -36,6 +39,14 @@
 			# Problem bei action: Führt dieses PHP nicht aus
 			$save = "0";
 		}
+		else{
+
+			$title = "Titel";
+			$text = "Text";
+			
+			
+		}
+
 	?>
 
 	

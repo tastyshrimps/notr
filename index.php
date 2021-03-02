@@ -15,8 +15,9 @@
     	 </form>
     </div>
     <div class="col-auto">
-		<form method="get" action="create.php">
+		<form method="post" action="create.php" >
 		<button class="btn btn-danger" type="submit">Create</button>
+		<input type="hidden" name="to_save" id="to_save" value="0"/>
 		 </form>
     </div>
   </div>
@@ -34,9 +35,14 @@
 	  	  echo'<div class="col-auto">';
            echo' <input class="form-control" type="text" placeholder="'.$row['title'].'" aria-label="readonly input example" readonly>';
         echo'</div>';
-        echo'<div class="col-auto">';    
-           echo' <a href="edit.php?id='.$row['ID'].'"><button class="btn btn-danger">Edit</button></a>';
-        echo'</div>';
+        echo'<div class="col-auto">'; 
+		
+		echo '<form method="post" action="edit.php?id='.$row['ID'].'" >';
+			echo '<button class="btn btn-danger" type="submit">Edit</button>';
+			echo '<input type="hidden" name="to_save" id="to_save" value="0"/>';
+		echo '</form>';	
+		   
+		echo'</div>';
 
       
   		echo'</div>';
