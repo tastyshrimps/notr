@@ -1,0 +1,45 @@
+.logo
+{
+	max-width: 200px;
+	
+	margin-right: 20px;
+	display: block;
+}
+.main-body
+{
+	margin: 0 auto;
+	max-width: 1000px;
+	
+} 
+.abstand 
+{
+	padding-top: 20px;
+}
+.rechts
+{
+	float: right;
+}
+.footer
+{
+	padding-top: 30px;
+}
+.col-auto
+{
+	padding-bottom: 10px;
+}
+
+h1
+{
+	padding-top: 10px;
+	color: #FF0000;
+
+}
+.btn-danger
+{
+	background-color: #FF0000;
+	border-color:  #FF0000;
+}
+.abstand-oben
+{
+	padding-top: 30px;
+}
