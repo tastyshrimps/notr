@@ -1,39 +1,4 @@
-
-<!DOCTYPE html>
-<html lang="de">
-  <head>
-  <meta charset="utf-8"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notr</title>	
-</head>
-
-<?php
-	# Auskommentieren, um PHP-Version herauszufinden
-	#phpinfo();
-	
-	$servername = "localhost";
-	$username = "root";
-	$password = "";
-	$database = "notr";
-	$charset = "utf8";
-
-	try 
-	{
-		$db = new PDO("mysql:host=$servername;dbname=$database;charset=$charset", $username, $password);
-		$db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		//echo "Verbindung hergestellt";
-	} 
-	catch (PDOException $e) 
-	{
-		echo "Verbindung fehlgeschlagen";
-		//echo ": " . $e->getMessage();
-	}
-?>
-
-<body>
-	<a href="index.php">
-		<img src="img/logo.png" alt="Logo" style="max-width: 200px"></img>
-	</a>
+<?php include('structure/header.php'); ?>
 	<br>
 	
 	<!-- Beim Klick auf SAVE Seite wechseln -->
@@ -56,11 +21,5 @@
     </form>
 <br><br>
 
-<footer>
-	  <p class="rechts">&copy; NOTR 2021</p>
-	</footer>
-</body>
-
- 
-</html>
+<?php include('structure/footer.php'); ?>
 
