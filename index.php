@@ -37,7 +37,7 @@
            echo' <input class="form-control" type="text" placeholder="'.$row['title'].'" aria-label="readonly input example" readonly>';
         echo'</div>';
         echo'<div class="col-auto">';    
-           echo' <a href="notr_edit?id='.$row['ID'].'"><button class="btn btn-danger">Edit</button></a>';
+           echo' <a href="edit.php?id='.$row['ID'].'"><button class="btn btn-danger">Edit</button></a>';
         echo'</div>';
         echo'<div class="col-auto">';    
           echo'<a href="notr_delete?id='.$row['ID'].'"><button class="btn btn-danger">Delete</button></a>';
