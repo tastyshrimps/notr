@@ -3,10 +3,12 @@
 	
 	<!-- Beim Klick auf SAVE Seite wechseln -->
 	<!-- action = "edit.php" funktioniert nicht weil dann php nicht ausgeführt wird-->
-	<form  method="post" action = "edit.php" > 
+	<form style="display: inline" action="index.php" method="get">
+		<button>BACK</button>
+	</form>
+	<form style="display: inline" method="post" action = "edit.php" > 
 		
 		<!-- Buttons und Felder -->
-		<a href="index.php">BACK</a>
 		<input  type="submit" name="SAVE" value="SAVE"/><br>
         <input type="text" id="title" name="title"><br>
 		<textarea name="text" ></textarea><br>

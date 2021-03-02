@@ -40,6 +40,7 @@
 		echo '<form method="post" action="edit.php?id='.$row['ID'].'" >';
 			echo '<button class="btn btn-danger" type="submit">Edit</button>';
 			echo '<input type="hidden" name="to_save" id="to_save" value="0"/>';
+			echo '<input type="hidden" name="ID" value="'.$row['ID'].'"/>';
 		echo '</form>';	
 		   
 		echo'</div>';
