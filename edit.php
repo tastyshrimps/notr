@@ -2,10 +2,11 @@
 	<br>
 	<?php 
 		#Inhalt der Felder der vorherigen Seite
+		$save = "0";
 		$title = $_POST["title"];
 		$text = $_POST["text"];
 		$save = $_POST["to_save"];
-		echo "Titel " . $title . "Text ". $text . "Save " . $save;
+		echo "Titel " . $title . " Text ". $text . " Save " . $save;
 					# isset — Prüft, ob eine Variable deklariert ist und sich von null unterscheidet
 		if($save = "1"){
 			
@@ -23,7 +24,7 @@
 			$db->query($sql_text);
 			$text_id = $db->lastInsertId();				
 
-			echo $notizen_id . " " . $text_id;
+			echo "NotizID " . $notizen_id . " TextID " . $text_id;
 			
 			# IDs in Zwischentabelle schreiben				
 			$sql_notizen_text = "INSERT INTO notizen_text (ID_notizen, ID_text) VALUES ($notizen_id, $text_id)";				
