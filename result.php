@@ -1,54 +1,31 @@
 
-<!DOCTYPE html>
-<html lang="de">
-  <head>
-  <meta charset="utf-8"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notr</title>	
-</head>
-
-<?php
-	
-	$servername = "localhost";
-	$username = "root";
-	$password = "";
-	$database = "notr";
-	$charset = "utf8";
-
-	try 
-	{
-		$db = new PDO("mysql:host=$servername;dbname=$database;charset=$charset", $username, $password);
-		$db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		//echo "Verbindung hergestellt";
-	} 
-	catch (PDOException $e) 
-	{
-		echo "Verbindung fehlgeschlagen";
-		//echo ": " . $e->getMessage();
-	}
-?>
-
-
-<body>
-	<a href="index.php"><img src="img/logo.png" alt="Logo" style="max-width: 200px"></img></a>
+<?php include('structure/header.php'); ?>
     
 	
-    <form method="get" action="/git/notr/result.php"> 
-        <input type="text" id="search" name="search"><br>
-        <!--<a href="notr_result?title=<?php $_GET['search'];?>"><button>Search</button></a>-->
-		<button type="submit">Search</button>
-		
-		
+<div class="container">
+  <div class="row">
+    <div class="col-auto" style="padding-bottom:10px;">
+		<form method="get" action="result.php"> 
+        <input class="form-control" type="text" id="search" name="search" placeholder="Bitte Suchtext eingeben">
+    </div>
+    <div class="col-auto">
+		<button class="btn btn-danger" type="submit">Search</button>		
         <!--<a href="notr_create?title=<?php $_GET['search'];?>"><button>Create</button></a>-->
-     </form>
-	 
-	 <form method="get" action="/git/notr/create.php?search=<?php $_GET['search'];?>">
-		<button type="submit">Create</button>
-	 </form>
-<br><br>
+    	 </form>
+    </div>
+    <div class="col-auto">
+		<form method="get" action="create.php">
+		<button class="btn btn-danger" type="submit">Create</button>
+		 </form>
+    </div>
+  </div>
+</div>	
 
+<br>
+<div class="container">
 <?php	
-	echo '<h3>Search Results for "'.$_GET['search'].'":</h3>';
+	
+	echo '<h3>Search Results for "'.$_GET['search'].'":</h3><br>';
 	$sql = "SELECT * 
 			FROM notizen a 
 			JOIN notizen_text b 	ON a.ID=b.ID_notizen  
@@ -59,19 +36,24 @@
 			
     foreach ($db->query($sql) as $row) 
     {
-        echo $row['title'].'<a href="edit.php?id='.$row['ID'].'"><button>Edit</button></a>
-		<a href="delete.php?id='.$row['ID'].'"><button>Delete</button></a><br />'; 
+      echo'<div class="row">';
 
+	  	  echo'<div class="col-auto">';
+           echo' <input class="form-control" type="text" placeholder="'.$row['title'].'" aria-label="readonly input example" readonly>';
+        echo'</div>';
+        echo'<div class="col-auto">';    
+           echo' <a href="edit.php?id='.$row['ID'].'"><button class="btn btn-danger">Edit</button></a>';
+        echo'</div>';
+
+
+  		echo'</div>';
+      echo'<br>';
 		
 		
     }
 ?>
 
-<footer>
-	  <p class="rechts">&copy; NOTR 2021</p>
-	</footer>
-</body>
+</div>
 
- 
-</html>
+<?php include('structure/footer.php'); ?>
 

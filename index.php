@@ -6,7 +6,7 @@
 <div class="container">
   <div class="row">
     <div class="col-auto" style="padding-bottom:10px;">
-		<form method="get" action="/git/notr/result.php"> 
+		<form method="get" action="result.php"> 
         <input class="form-control" type="text" id="search" name="search" placeholder="Bitte Suchtext eingeben">
     </div>
     <div class="col-auto">
@@ -15,14 +15,12 @@
     	 </form>
     </div>
     <div class="col-auto">
-		<form method="get" action="">
+		<form method="get" action="create.php">
 		<button class="btn btn-danger" type="submit">Create</button>
 		 </form>
     </div>
   </div>
 </div>
-
-
    
 <br>
 <div class="container">
@@ -39,18 +37,11 @@
         echo'<div class="col-auto">';    
            echo' <a href="edit.php?id='.$row['ID'].'"><button class="btn btn-danger">Edit</button></a>';
         echo'</div>';
-        echo'<div class="col-auto">';    
-          echo'<a href="notr_delete?id='.$row['ID'].'"><button class="btn btn-danger">Delete</button></a>';
-         echo'</div>';
-
 
       
   		echo'</div>';
       echo'<br>';
-		
-		
- 
-		
+	
     }
 ?>
 
