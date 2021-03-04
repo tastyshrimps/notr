@@ -1,4 +1,5 @@
-<?php include('structure/header.php'); ?>
+<?php include('structure/header.php'); 
+$create = $_POST["Create"];?>
 	
 	
 	<!-- Beim Klick auf SAVE Seite wechseln -->
@@ -19,7 +20,7 @@
 		</div>
 		<div class="row">
 			<div class="col-auto">
-				<input class="form-control" type="text" id="title" name="title" placeholder="Titel der Notiz">
+				<input class="form-control" type="text" id="title" name="title" placeholder="Titel der Notiz" value = "<?php echo $create;?>">
 			</div>
 		</div>		
 		<div class="row">

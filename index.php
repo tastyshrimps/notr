@@ -15,7 +15,7 @@
     </div>
     <div class="col-auto">
 		<form method="post" action="create.php" >
-		<button class="btn btn-danger" type="submit">Create</button>
+		<input class="btn btn-danger" type="submit" name = "Create" value= "Create"></button>
 		<input type="hidden" name="to_save" id="to_save" value="0"/>
 		 </form>
     </div>
