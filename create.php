@@ -19,18 +19,18 @@
 		</div>
 		<div class="row">
 			<div class="col-auto">
-				<input type="text" id="title" name="title">
+				<input class="form-control" type="text" id="title" name="title" placeholder="Titel der Notiz">
 			</div>
 		</div>		
 		<div class="row">
 			<div class="col-7-sm"> <!-- Reihe = 12 Spalten, davon 7; sm = small -->
-				<textarea class="form-control" rows="14" name="text"></textarea>			
+				<textarea class="form-control" rows="14" name="text" placeholder="Geben Sie hier Ihre Notiz ein"></textarea>			
 			</div>
 		</div>
 		<div class="spacing2"> </div>
 		<div class="row">
 			<div class="col-7-sm">
-				<input class="form-control"type="text" id="tags" name="tags">
+				<input class="form-control"type="text" id="tags" name="tags" placeholder="Tags eingeben mit # (Beispiel #Tag #Tag2)">
 			</div>	
 		</div>	
 	</div>		       
