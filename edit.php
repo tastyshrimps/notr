@@ -142,9 +142,9 @@
 		<div class="col-7-sm"> <!-- Reihe = 12 Spalten, davon 7; sm = small -->
 			<textarea class="form-control" rows="14" name="text"><?php echo $text;?></textarea>			
 		</div>
-		<div class="spacing"> </div>
+	
 	</div>
-
+	<div class="spacing2"> </div>
 <!-- Textfeld Ende -->
 <!-- Tags-Feld -->
 	<div class="row">

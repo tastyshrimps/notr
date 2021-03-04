@@ -26,8 +26,9 @@
 <div class="container ">
  
 <?php
-    $sql = "SELECT * FROM notizen";
-    foreach ($db->query($sql) as $row) 
+   $sql = "SELECT * FROM notizen";  
+
+   foreach ($db->query($sql) as $row) 
     {
       echo'<div class="row">';
 
