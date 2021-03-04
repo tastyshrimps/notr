@@ -55,8 +55,16 @@
 	}
 	
 	if(isset($_POST['DELETE'])){
-		echo "uff " . $_POST['notizen_id'];
-		echo "Session: " . $_SESSION['notizen_id'];
+		
+		# Text löschen
+		dropSingleValue($db, "
+		DELETE FROM text 
+		WHERE ID = (SELECT C.ID	
+					FROM NOTIZEN A
+					JOIN NOTIZEN_TEXT B ON A.ID = B.ID_NOTIZEN
+					JOIN TEXT C ON B.ID_TEXT = C.ID
+					WHERE A.ID =?)", [$_POST['notizen_id']]);
+		# Notiz löschen, Notizen-Text wird über Löschregel automatisch gelöscht.			
 		dropSingleValue($db, "DELETE FROM notizen WHERE ID =?", [$_POST['notizen_id']]);
 		header("location:index.php");
 	}
