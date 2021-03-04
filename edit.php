@@ -1,6 +1,6 @@
 <?php include('structure/header.php');
 	
-	# INSERT (Inhalt der Felder der vorherigen Seite) oder SELECT (Inhalt zur ID)
+	# INSERT (Inhalt der Felder der vorherigen Seite CREATE.php)
 	if($_POST["to_save"] == "1"){
 		$title = $_POST["title"];
 		$text = $_POST["text"];
@@ -23,10 +23,45 @@
 		
 		# Umleiten auf nächste Seite
 		# Dies funktioniert nicht, weil nur action die Feldinhalte per Post übergeben kann, header aber nicht:
-		#header("location:edit.php");
+		# header("location:edit.php");
 		# Problem bei action: Führt dieses PHP nicht aus
 		
+		
+		# Jedes Wort im Feld tags in Tags inserten und in Notizen-Tags inserten, wenn es noch nicht existiert
+		
+		# Für jedes Wort in tags
+		# Text in Tags [$_POST['tags']]
+			# Exisitert noch nicht
+				# lege an, gebe id zurück
+			# Existiert schon
+				# gebe id zurück
+				
+			# Lege notizen - tags an	
+			
+		function insertTags($db, $sql, $parameters){
+			$q = $db->prepare($sql);
+			$q->execute($parameters);
+		}
+
+        $tagtext = $_POST['tags'];
+        $tags = array();
+		$tags = explode(" ", $tagtext );
+		echo "Tagarray Test <br>" . $tags[0] . "@@" . $tags[1] . "@@" . sizeof($tags);
+
+		for ($i = 0; $i<sizeof($tags); $i++){
+		# ignore: Ignoriert Fehler. UK auf name, also kein insert (und kein Fehler) bei Doppeleintrag
+			# Unique Key über name verhindert Doppeleinträge
+			insertTags($db, "
+				INSERT IGNORE INTO TAGS (NAME) 
+				VALUES (REPLACE(?, '#', ''))", [$tags[$i]]);
+			
+			# Unique Key über ID_tags, ID_notizen verhindert Doppeleinträge
+			insertTags ($db, "
+				insert ignore into notizen_tags (ID_tags, ID_notizen) values ((SELECT ID FROM TAGS ORDER BY ID DESC limit 1), (SELECT ID FROM NOTIZEN ORDER BY ID DESC limit 1))", []);
+		}		
 	}
+	
+	# SELECT (Inhalt zur ID)
 	else{
 		# SELECT values for given ID
 		
@@ -47,7 +82,62 @@
 		JOIN NOTIZEN_TEXT B ON A.ID = B.ID_NOTIZEN
 		JOIN TEXT C ON B.ID_TEXT = C.ID
 		WHERE A.ID =?", [$_POST["ID"]]);
+		
+		$tags = getSingleValue($db, "
+		SELECT group_concat('#', C.NAME SEPARATOR ' ') FROM NOTIZEN A JOIN NOTIZEN_TAGS B ON A.ID = B.ID_NOTIZEN JOIN TAGS C ON B.ID_TAGS = C.ID WHERE A.ID = ?", [$_POST["ID"]]); 
+		
 	}
+
+	# UPDATE
+	if(isset($_POST['SAVE'])){
+		function updateData($db, $sql, $parameters){
+			$q = $db->prepare($sql);
+			$q->execute($parameters);
+		}
+		
+		# Notizen
+		updateData($db, "
+		UPDATE notizen 
+		SET title = '".$_POST["title"]."' 
+		WHERE ID =?", [$_POST['notizen_id']]);
+		
+		# Text
+		updateData($db, "
+		UPDATE text 
+		SET SECTION = '".$_POST["text"]."' 
+		WHERE ID = (SELECT C.ID
+		FROM NOTIZEN A 
+		JOIN NOTIZEN_TEXT B ON A.ID = B.ID_NOTIZEN
+		JOIN TEXT C ON B.ID_TEXT = C.ID
+		WHERE A.ID =?)", [$_POST['notizen_id']]);	
+
+		# Tags
+		function updateTags($db, $sql, $parameters){
+			$q = $db->prepare($sql);
+			$q->execute($parameters);
+		}
+        $tagtext = $_POST['tags'];
+        $tags = array();
+		$tags = explode(" ", $tagtext );
+
+		for ($i = 0; $i<sizeof($tags); $i++){
+		# ignore: Ignoriert Fehler. UK auf name, also kein insert (und kein Fehler) bei Doppeleintrag
+			# Unique Key über name verhindert Doppeleinträge
+					echo "Tag  Test <br>" . $tags[$i];
+			updateTags($db, "
+				INSERT IGNORE INTO TAGS (NAME) 
+				VALUES (REPLACE(?, '#', ''))", [$tags[$i]]);
+			
+			# Unique Key über ID_tags, ID_notizen verhindert Doppeleinträge
+			updateTags ($db, "
+				insert ignore into notizen_tags (ID_tags, ID_notizen) values ((SELECT ID FROM TAGS ORDER BY ID DESC limit 1), ?)", [$_POST['notizen_id']]);
+		}	
+		
+		# Weiterleitung
+		#header("location:index.php");			
+	
+	}	
+	
 	# LÖSCHEN
 	function dropSingleValue($db, $sql, $parameters){
 		$q = $db->prepare($sql);
@@ -64,52 +154,21 @@
 					JOIN NOTIZEN_TEXT B ON A.ID = B.ID_NOTIZEN
 					JOIN TEXT C ON B.ID_TEXT = C.ID
 					WHERE A.ID =?)", [$_POST['notizen_id']]);
-		# Notiz löschen, Notizen-Text wird über Löschregel automatisch gelöscht.			
+		# Tags löschen
+		dropSingleValue($db, "
+		DELETE FROM TAGS
+		WHERE ID = (SELECT  C.ID
+					FROM NOTIZEN A
+					JOIN NOTIZEN_TAGS B ON A.ID = B.ID_NOTIZEN
+					JOIN TAGS C ON B.ID_NOTIZEN = C.ID
+					WHERE A.ID =?)", [$_POST['notizen_id']]);
+		
+		# Notiz löschen
 		dropSingleValue($db, "DELETE FROM notizen WHERE ID =?", [$_POST['notizen_id']]);
 		header("location:index.php");
-	}
-	
-	# SPEICHERN
-	if(isset($_POST['SAVE'])){
-		function updateData($db, $sql, $parameters){
-			$q = $db->prepare($sql);
-			$q->execute($parameters);
-		}
-		updateData($db, "
-		UPDATE notizen 
-		SET title = '".$_POST["title"]."' 
-		WHERE ID =?", [$_POST['notizen_id']]);
 		
-		updateData($db, "
-		UPDATE text 
-		SET SECTION = '".$_POST["text"]."' 
-		WHERE ID = (SELECT C.ID
-		FROM NOTIZEN A 
-		JOIN NOTIZEN_TEXT B ON A.ID = B.ID_NOTIZEN
-		JOIN TEXT C ON B.ID_TEXT = C.ID
-		WHERE A.ID =?)", [$_POST['notizen_id']]);
-		
-		# Jedes Wort im Feld tags in Tags inserten und in Notizen-Tags inserten, wenn es noch nicht existiert
-		
-		# Für jedes Wort in tags	
-			# Exisitert noch nicht
-				# lege an, gebe id zurück
-			# Existiert schon
-				# gebe id zurück
-			# Lege notizen - tags an	
-			
-		function insertTags($db, $sql, $parameters){
-			$q = $db->prepare($sql);
-			$q->execute($parameters);
-		}
-		
-		
-		#INSERT INTO TAGS
-		
-		# Weiterleitung
-		header("location:index.php");			
-	}
 
+	}
 ?>
 
 <!-- Buttons -->
@@ -142,14 +201,14 @@
 		<div class="col-7-sm"> <!-- Reihe = 12 Spalten, davon 7; sm = small -->
 			<textarea class="form-control" rows="14" name="text"><?php echo $text;?></textarea>			
 		</div>
-	
+		<div class="spacing"> </div>
 	</div>
 	<div class="spacing2"> </div>
 <!-- Textfeld Ende -->
 <!-- Tags-Feld -->
 	<div class="row">
 		<div class="col-7-sm">
-			<input class="form-control"type="text" id="tags" name="tags">
+			<input class="form-control"type="text" id="tags" name="tags" value="<?php echo $tags;?>">
 		</div>
 	</div>
 <!-- Tags-feld Ende -->
