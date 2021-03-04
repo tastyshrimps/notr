@@ -36,16 +36,22 @@
 			
     foreach ($db->query($sql) as $row) 
     {
-      echo'<div class="row">';
+		echo'<div class="row">';
 
 	  	  echo'<div class="col-auto">';
            echo' <input class="form-control" type="text" placeholder="'.$row['title'].'" aria-label="readonly input example" readonly>';
         echo'</div>';
-        echo'<div class="col-auto">';    
-           echo' <a href="edit.php?id='.$row['ID'].'"><button class="btn btn-danger">Edit</button></a>';
-        echo'</div>';
+        echo'<div class="col-auto">'; 
+		
+		echo '<form method="post" action="edit.php?id='.$row['ID'].'" >';
+			echo '<button class="btn btn-danger" type="submit">Edit</button>';
+			echo '<input type="hidden" name="to_save" id="to_save" value="0"/>';
+			echo '<input type="hidden" name="ID" value="'.$row['ID_notizen'].'"/>';
+		echo '</form>';	
+		   
+		echo'</div>';
 
-
+      
   		echo'</div>';
       echo'<br>';
 		
