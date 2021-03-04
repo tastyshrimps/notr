@@ -19,7 +19,7 @@
     <a href="index.php"><img src="img/logo.png" alt="Logo" class="logo"></img></a>
     </div>
     <div class="col-auto">
-    <h1>Your app for your notes</h1>
+    <h1>The #1 app for your notes</h1>
   </div>
 </div>
 

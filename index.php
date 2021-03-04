@@ -1,4 +1,3 @@
-
 <?php include('structure/header.php'); ?>
 
 
@@ -24,7 +23,7 @@
 </div>
    
 <br>
-<div class="container">
+<div class="container ">
  
 <?php
     $sql = "SELECT * FROM notizen";
@@ -33,12 +32,11 @@
       echo'<div class="row">';
 
 	  	  echo'<div class="col-auto">';
-           echo' <input class="form-control" type="text" placeholder="'.$row['title'].'" aria-label="readonly input example" readonly>';
+           echo' <input class="form-control shadow-none" type="text" placeholder="'.$row['title'].'" readonly >';
         echo'</div>';
-        echo'<div class="col-auto">'; 
-		
+        echo'<div class="col-auto">'; 		
 		echo '<form method="post" action="edit.php?id='.$row['ID'].'" >';
-			echo '<button class="btn btn-danger" type="submit">Edit</button>';
+			echo '<button class="btn btn-danger" type="submit">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>';
 			echo '<input type="hidden" name="to_save" id="to_save" value="0"/>';
 			echo '<input type="hidden" name="ID" value="'.$row['ID'].'"/>';
 		echo '</form>';	
@@ -47,7 +45,7 @@
 
       
   		echo'</div>';
-      echo'<br>';
+      echo'<div class="spacing"></div>';
 	
     }
 ?>
@@ -55,7 +53,3 @@
 </div>
 
 <?php include('structure/footer.php'); ?>
-
-
-
-

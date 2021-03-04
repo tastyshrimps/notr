@@ -88,20 +88,44 @@
 ?>
 
 <!-- Buttons -->
-<form style="display: inline" action="index.php" method="get">
-	<button>BACK</button>
-</form>
+<div class="container">
+	<div class="row">
+		<div class="col-auto">			
+			<form style="display: inline" action="index.php" method="get">
+				<button class="btn btn-danger">BACK</button>
+			</form>		
+		</div>	
+		<div class="col-auto">
+			<form style="display: inline" action = "" method = "post"> 	
+				<input class="btn btn-danger" type="submit" name="SAVE" value="SAVE"/>
+		</div>
+		<div class="col-auto">
+		<input type="submit" class="btn btn-danger" name = "DELETE" value="DELETE" />	
+		</div>		
+	</div>
+	<br>
+<!-- Buttons Ende -->
+<!-- Titel -->
+	<div class="row">
+		<div class="col-auto">
+		<input class="form-control" type="text" id="title" name="title" value="<?php echo $title;?>">
+		</div>
+	</div>
+<!-- Titel Ende-->
+<!-- Textfeld -->
+	<div class="row">
+		<div class="col-7-sm">
+			<textarea class="form-control" rows="14" name="text"><?php echo $text;?></textarea>
+			
+		</div>
+	</div>
+<!-- Textfeld Ende -->
+</div>
 
-<form style="display: inline" action = "" method = "post"> 	
-	<input type="submit" name="SAVE" value="SAVE"/>
-	<input type="submit" name = "DELETE" value="DELETE" /><br>	
-	
-	<!-- Felder -->
-	<input type="text" id="title" name="title" value="<?php echo $title;?>"><br>
+
 	<!-- textarea hat kein value-Attribut -->
-	<textarea name="text"><?php echo $text;?></textarea><br>
-	<input type="hidden" name="to_save" id="to_save"/>	
-	<input type="hidden" name="notizen_id" id="notizen_id" value="<?php echo $notizen_id;?>"/>
+		<input type="hidden" name="to_save" id="to_save"/>	
+			<input type="hidden" name="notizen_id" id="notizen_id" value="<?php echo $notizen_id;?>"/>
 	<!-- <input type="text" id="tags" name="tags"--><br>	
 </form>
 
