@@ -89,6 +89,23 @@
 		JOIN TEXT C ON B.ID_TEXT = C.ID
 		WHERE A.ID =?)", [$_POST['notizen_id']]);
 		
+		# Jedes Wort im Feld tags in Tags inserten und in Notizen-Tags inserten, wenn es noch nicht existiert
+		
+		# Für jedes Wort in tags	
+			# Exisitert noch nicht
+				# lege an, gebe id zurück
+			# Existiert schon
+				# gebe id zurück
+			# Lege notizen - tags an	
+			
+		function insertTags($db, $sql, $parameters){
+			$q = $db->prepare($sql);
+			$q->execute($parameters);
+		}
+		
+		
+		#INSERT INTO TAGS
+		
 		# Weiterleitung
 		header("location:index.php");			
 	}
@@ -122,19 +139,26 @@
 <!-- Titel Ende-->
 <!-- Textfeld -->
 	<div class="row">
+		<div class="col-7-sm"> <!-- Reihe = 12 Spalten, davon 7; sm = small -->
+			<textarea class="form-control" rows="14" name="text"><?php echo $text;?></textarea>			
+		</div>
+		<div class="spacing"> </div>
+	</div>
+
+<!-- Textfeld Ende -->
+<!-- Tags-Feld -->
+	<div class="row">
 		<div class="col-7-sm">
-			<textarea class="form-control" rows="14" name="text"><?php echo $text;?></textarea>
-			
+			<input class="form-control"type="text" id="tags" name="tags">
 		</div>
 	</div>
-<!-- Textfeld Ende -->
-</div>
+<!-- Tags-feld Ende -->
 
+</div>
 
 	<!-- textarea hat kein value-Attribut -->
 		<input type="hidden" name="to_save" id="to_save"/>	
-			<input type="hidden" name="notizen_id" id="notizen_id" value="<?php echo $notizen_id;?>"/>
-	<!-- <input type="text" id="tags" name="tags"--><br>	
+		<input type="hidden" name="notizen_id" id="notizen_id" value="<?php echo $notizen_id;?>"/>
 </form>
 
 <?php include('structure/footer.php'); ?>

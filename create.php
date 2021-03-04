@@ -13,7 +13,7 @@
         <input type="text" id="title" name="title"><br>
 		<textarea name="text" ></textarea><br>
 		<input type="hidden" name="to_save" id="to_save" value="1"/>
-        <!-- <input type="text" id="tags" name="tags"--><br>	
+        <input type="text" id="tags" name="tags"--><br>	
 
 
 			
