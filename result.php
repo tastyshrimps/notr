@@ -78,7 +78,9 @@
 				
 			}
 		}
-		
+	$sql = 	$sql."		
+				GROUP by a.title
+				";	
 		
 	#echo $sql;
 	echo '<h3>Search Results for "'.$_GET['search'].'":</h3><br>';

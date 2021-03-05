@@ -94,7 +94,7 @@ CREATE TABLE `notizen_tags` (
 
 LOCK TABLES `notizen_tags` WRITE;
 /*!40000 ALTER TABLE `notizen_tags` DISABLE KEYS */;
-INSERT INTO `notizen_tags` VALUES (3,27),(3,28),(4,29),(7,35),(8,36);
+INSERT INTO `notizen_tags` VALUES (3,27),(3,28),(4,28),(4,29),(7,35),(8,36);
 /*!40000 ALTER TABLE `notizen_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,4 +183,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-05  9:37:55
+-- Dump completed on 2021-03-05  9:44:01
