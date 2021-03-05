@@ -57,7 +57,7 @@ CREATE TABLE `notizen` (
   `deleted` tinyint(1) NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +94,7 @@ CREATE TABLE `notizen_tags` (
 
 LOCK TABLES `notizen_tags` WRITE;
 /*!40000 ALTER TABLE `notizen_tags` DISABLE KEYS */;
-INSERT INTO `notizen_tags` VALUES (3,27),(3,28),(4,28),(4,29),(7,35),(8,36);
+INSERT INTO `notizen_tags` VALUES (320,27),(322,28),(323,29),(324,35),(325,36);
 /*!40000 ALTER TABLE `notizen_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,7 +137,7 @@ CREATE TABLE `tags` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(25) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=326 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +146,7 @@ CREATE TABLE `tags` (
 
 LOCK TABLES `tags` WRITE;
 /*!40000 ALTER TABLE `tags` DISABLE KEYS */;
-INSERT INTO `tags` VALUES (3,'#essen'),(4,'#erinnerung'),(7,'#test'),(8,'#miep');
+INSERT INTO `tags` VALUES (320,'essen'),(322,'erinnerung'),(323,'erinnerung'),(324,'test'),(325,'miep');
 /*!40000 ALTER TABLE `tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +161,7 @@ CREATE TABLE `text` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `section` text NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -183,4 +183,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-05  9:44:01
+-- Dump completed on 2021-03-05 10:11:52

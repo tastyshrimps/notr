@@ -43,8 +43,9 @@
 			#echo $tags[$i];
 			#echo "<br>";
 			
+			
 			if (strpos($tags[$i], '#') === 0) {
-
+				$trim = ltrim($tags[$i],'#');
 				if ($i>0){
 					$sql = 	$sql." OR ";
 				}
@@ -54,7 +55,7 @@
 
 				$sql = 	$sql.
 						"
-						e.name LIKE '%".$tags[$i]."'
+						e.name LIKE '%".$trim."'
 						";	
 			}
 
@@ -75,7 +76,11 @@
 						OR a.title LIKE '%".$tags[$i]."%'
 						";
 						
-				
+				$sql = 	$sql.
+						"
+						OR e.name LIKE '%".$tags[$i]."'
+						";	
+
 			}
 		}
 	$sql = 	$sql."		
