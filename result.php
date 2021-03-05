@@ -24,16 +24,72 @@
 <br>
 <div class="container">
 <?php	
-	
-	echo '<h3>Search Results for "'.$_GET['search'].'":</h3><br>';
-	$sql = "SELECT * 
-			FROM notizen a 
-			JOIN notizen_text b 	ON a.ID=b.ID_notizen  
-			JOIN text c 			ON c.ID=b.ID_text
-			WHERE c.section LIKE '%".$_GET['search']."%'
-			OR a.title LIKE '%".$_GET['search']."%'
-			";
+		$sql ="";
+		$sql = "
+				SELECT * 
+				FROM notizen a 
+				LEFT JOIN notizen_text b 	ON a.ID=b.ID_notizen  
+				LEFT JOIN text c 			ON c.ID=b.ID_text
+				LEFT JOIN notizen_tags d 	ON a.ID=d.ID_notizen  
+				LEFT JOIN tags e 			ON e.ID=d.ID_tags
+				";		
+		
+		$suchstring = $_GET['search'];
+		
+		$tags = array();
+		$tags = explode( " ", $suchstring );
+		
+		for ($i =0; $i<sizeof($tags); $i++) {
+			#echo $tags[$i];
+			#echo "<br>";
 			
+			
+			if (strpos($tags[$i], '#') === 0) {
+				$trim = ltrim($tags[$i],'#');
+				if ($i>0){
+					$sql = 	$sql." OR ";
+				}
+				else{
+					$sql = 	$sql." WHERE ";
+				}
+
+				$sql = 	$sql.
+						"
+						e.name LIKE '%".$trim."'
+						";	
+			}
+
+			else{
+				
+				if ($i>0){
+					$sql = 	$sql." OR ";
+				}
+				else{
+					$sql = 	$sql." WHERE ";
+				}	
+						
+				$sql = 	$sql."
+						c.section LIKE '%".$tags[$i]."%'
+						";
+
+				$sql = 	$sql."		
+						OR a.title LIKE '%".$tags[$i]."%'
+						";
+						
+				$sql = 	$sql.
+						"
+						OR e.name LIKE '%".$tags[$i]."'
+						";	
+
+			}
+		}
+	$sql = 	$sql."		
+				GROUP by a.title
+				";	
+		
+	#echo $sql;
+	echo '<h3>Search Results for "'.$_GET['search'].'":</h3><br>';
+	
     foreach ($db->query($sql) as $row) 
     {
 		echo'<div class="row">';
@@ -53,10 +109,11 @@
 
       
   		echo'</div>';
-      echo'<br>';
+      echo'<div class="spacing"></div>';
 		
 		
     }
+
 ?>
 
 </div>
