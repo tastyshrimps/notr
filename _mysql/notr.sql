@@ -57,7 +57,7 @@ CREATE TABLE `notizen` (
   `deleted` tinyint(1) NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `notizen` (
 
 LOCK TABLES `notizen` WRITE;
 /*!40000 ALTER TABLE `notizen` DISABLE KEYS */;
-INSERT INTO `notizen` VALUES (27,'Einkaufszettel',0,NULL,NULL,0,'0000-00-00 00:00:00'),(28,'test',0,NULL,NULL,0,'0000-00-00 00:00:00'),(29,'test3',0,NULL,NULL,0,'0000-00-00 00:00:00'),(30,'test4',0,NULL,NULL,0,'0000-00-00 00:00:00'),(31,'test5',0,NULL,NULL,0,'0000-00-00 00:00:00');
+INSERT INTO `notizen` VALUES (27,'Einkaufszettel',0,NULL,NULL,0,'0000-00-00 00:00:00'),(28,'Abendessen',0,NULL,NULL,0,'0000-00-00 00:00:00'),(29,'Arzttermin',0,NULL,NULL,0,'0000-00-00 00:00:00'),(35,'test',0,NULL,NULL,0,'0000-00-00 00:00:00'),(36,'wierd',0,NULL,NULL,0,'0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `notizen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -94,6 +94,7 @@ CREATE TABLE `notizen_tags` (
 
 LOCK TABLES `notizen_tags` WRITE;
 /*!40000 ALTER TABLE `notizen_tags` DISABLE KEYS */;
+INSERT INTO `notizen_tags` VALUES (3,27),(3,28),(4,29),(7,35),(8,36);
 /*!40000 ALTER TABLE `notizen_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +122,7 @@ CREATE TABLE `notizen_text` (
 
 LOCK TABLES `notizen_text` WRITE;
 /*!40000 ALTER TABLE `notizen_text` DISABLE KEYS */;
-INSERT INTO `notizen_text` VALUES (27,24),(28,25),(29,26),(30,27),(31,28);
+INSERT INTO `notizen_text` VALUES (27,24),(28,25),(29,26),(35,32),(36,33);
 /*!40000 ALTER TABLE `notizen_text` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +137,7 @@ CREATE TABLE `tags` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(25) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,6 +146,7 @@ CREATE TABLE `tags` (
 
 LOCK TABLES `tags` WRITE;
 /*!40000 ALTER TABLE `tags` DISABLE KEYS */;
+INSERT INTO `tags` VALUES (3,'#essen'),(4,'#erinnerung'),(7,'#test'),(8,'#miep');
 /*!40000 ALTER TABLE `tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,7 +161,7 @@ CREATE TABLE `text` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `section` text NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,7 +170,7 @@ CREATE TABLE `text` (
 
 LOCK TABLES `text` WRITE;
 /*!40000 ALTER TABLE `text` DISABLE KEYS */;
-INSERT INTO `text` VALUES (24,'Tomaten'),(25,'test'),(26,'test'),(27,'test'),(28,'test');
+INSERT INTO `text` VALUES (24,'Tomaten'),(25,'Schnitzel'),(26,'Mittwoch 18.3.2021'),(32,'test'),(33,'abc');
 /*!40000 ALTER TABLE `text` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -181,4 +183,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-04  9:43:46
+-- Dump completed on 2021-03-05  9:37:55
