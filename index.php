@@ -9,13 +9,13 @@
         <input class="form-control" type="text" id="search" name="search" placeholder="Bitte Suchtext eingeben">
     </div>
     <div class="col-auto">
-		<button class="btn btn-danger" type="submit">Search</button>		
+		<button class="btn btn-danger" type="submit">SEARCH</button>		
         <!--<a href="notr_create?title=<?php $_GET['search'];?>"><button>Create</button></a>-->
     	 </form>
     </div>
     <div class="col-auto">
 		<form method="post" action="create.php" >
-		<input class="btn btn-danger" type="submit" name = "Create" value= "Create"></button>
+		<button class="btn btn-danger" type="submit" name = "Create" >CREATE</button>
 		<input type="hidden" name="to_save" id="to_save" value="0"/>
 		 </form>
     </div>
