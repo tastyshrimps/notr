@@ -51,15 +51,17 @@
 		for ($i = 0; $i<sizeof($tags); $i++){
 		# ignore: Ignoriert Fehler. UK auf name, also kein insert (und kein Fehler) bei Doppeleintrag
 			# Unique Key über name verhindert Doppeleinträge
-			insertTags($db, "
-				INSERT IGNORE INTO TAGS (NAME) 
-				VALUES (REPLACE(?, '#', ''))", [$tags[$i]]);
-			
-			# Unique Key über ID_tags, ID_notizen verhindert Doppeleinträge
-			insertTags ($db, "
-				insert ignore into notizen_tags (ID_tags, ID_notizen) values ((SELECT ID FROM TAGS WHERE NAME = ?), (SELECT ID 
-							FROM NOTIZEN 
-							ORDER BY ID DESC limit 1))", [$tags[$i]]);
+			if ($tags[$i] != ""){
+				insertTags($db, "
+					INSERT IGNORE INTO TAGS (NAME) 
+					VALUES (REPLACE(?, '#', ''))", [$tags[$i]]);
+				
+				# Unique Key über ID_tags, ID_notizen verhindert Doppeleinträge
+				insertTags ($db, "
+					insert ignore into notizen_tags (ID_tags, ID_notizen) values ((SELECT ID FROM TAGS WHERE NAME = ?), (SELECT ID 
+								FROM NOTIZEN 
+								ORDER BY ID DESC limit 1))", [$tags[$i]]);
+			}
 		}		
 	}
 	
@@ -92,7 +94,8 @@
 		FROM NOTIZEN A 
 		JOIN NOTIZEN_TAGS B ON A.ID = B.ID_NOTIZEN 
 		JOIN TAGS C ON B.ID_TAGS = C.ID 
-		WHERE A.ID = ?", [$_POST["ID"]]); 
+		WHERE A.ID = ?", [$_POST["ID"]]);
+
 		
 	}
 
@@ -139,18 +142,20 @@
 			# ignore: Ignoriert Fehler. UK auf name, also kein insert (und kein Fehler) bei Doppeleintrag
 		
 			# Unique Key über name verhindert Doppeleinträge
-			updateTags($db, "
-				INSERT IGNORE INTO TAGS (NAME) 
-				VALUES (REPLACE(?, '#', ''))", [$tags[$i]]);
-
-			# Unique Key über ID_tags, ID_notizen verhindert Doppeleinträge
-			# NOTIZEN_TAGS
-			# Tags aus Input / Notiz
-			echo " Tag: ". $tags[$i];
-			updateTags ($db, "
-				insert ignore into notizen_tags (ID_tags, ID_notizen) values ((SELECT ID 
-						 FROM TAGS 
-						 WHERE NAME = ?), ?); COMMIT;", [$tags[$i], $_POST['notizen_id']]);
+			if ($tags[$i] != ""){
+				updateTags($db, "
+					INSERT IGNORE INTO TAGS (NAME) 
+					VALUES (TRIM(REPLACE(?, '#', '')))", [$tags[$i]]);
+			
+				# Unique Key über ID_tags, ID_notizen verhindert Doppeleinträge
+				# NOTIZEN_TAGS
+				# Tags aus Input / Notiz
+				echo " Tag: ". $tags[$i];
+				updateTags ($db, "
+					insert ignore into notizen_tags (ID_tags, ID_notizen) values ((SELECT ID 
+							 FROM TAGS 
+							 WHERE NAME = ?), ?); COMMIT;", [$tags[$i], $_POST['notizen_id']]);
+			}
 		}
 
 		$tagtext2 = $_POST['tags'];
@@ -182,13 +187,21 @@
 						   FROM NOTIZEN_TAGS
 						   WHERE ID_NOTIZEN <> ?)", 
 						   [$tagsInDBArray[$i], $_POST['notizen_id']]);
+						   
+				updateData($db, "
+				DELETE A FROM NOTIZEN_TAGS A
+				JOIN TAGS B ON A.ID_TAGS = B.ID
+				WHERE 	B.NAME = ? AND 
+						A.ID_NOTIZEN = ?", [$tagsInDBArray[$i], $_POST['notizen_id']]);		 
+				
+				echo "Gelöscht werden sollte: " . $tagsInDBArray[$i] . " @ ". $_POST['notizen_id'];  
 			}
 		}
 		
 
 		# Weiterleitung */
 		header("location:index.php");			
-	
+		echo "@@". $tags;
 	}	
 	
 	# DELETE
@@ -217,7 +230,15 @@
 					C.ID NOT IN (SELECT ID_TAGS
 								 FROM NOTIZEN_TAGS
 								 WHERE ID_NOTIZEN <> ?))", [$_POST['notizen_id'], $_POST['notizen_id']]);
-		
+
+		dropSingleValue($db, "
+		DELETE FROM NOTIZEN_TAGS
+		WHERE ID_TAGS IN (
+					SELECT  C.ID
+					FROM NOTIZEN A
+					JOIN NOTIZEN_TAGS B ON A.ID = B.ID_NOTIZEN
+					JOIN TAGS C ON B.ID_TAGS = C.ID
+					WHERE A.ID =?)", [$_POST['notizen_id']]);								 
 		# Notiz löschen
 		dropSingleValue($db, "DELETE FROM notizen WHERE ID =?", [$_POST['notizen_id']]);
 		header("location:index.php");
