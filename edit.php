@@ -1,5 +1,5 @@
 <?php include('structure/header.php');
-	
+
 	# INSERT (Inhalt der Felder der vorherigen Seite CREATE.php)
 	if($_POST["to_save"] == "1"){
 		$title = $_POST["title"];
@@ -57,7 +57,9 @@
 			
 			# Unique Key über ID_tags, ID_notizen verhindert Doppeleinträge
 			insertTags ($db, "
-				insert ignore into notizen_tags (ID_tags, ID_notizen) values ((SELECT ID FROM TAGS ORDER BY ID DESC limit 1), (SELECT ID FROM NOTIZEN ORDER BY ID DESC limit 1))", []);
+				insert ignore into notizen_tags (ID_tags, ID_notizen) values ((SELECT ID FROM TAGS WHERE NAME = ?), (SELECT ID 
+							FROM NOTIZEN 
+							ORDER BY ID DESC limit 1))", [$tags[$i]]);
 		}		
 	}
 	
@@ -75,7 +77,8 @@
 		$notizen_id =  $_POST["ID"]; 
 		
 		$title = getSingleValue($db, "SELECT TITLE FROM notizen WHERE ID =?", [$_POST["ID"]]);
-				
+		
+		# Text (Section)
 		$text = getSingleValue($db, "
 		SELECT SECTION 
 		FROM NOTIZEN A 
@@ -83,13 +86,24 @@
 		JOIN TEXT C ON B.ID_TEXT = C.ID
 		WHERE A.ID =?", [$_POST["ID"]]);
 		
+		# Tags
 		$tags = getSingleValue($db, "
-		SELECT group_concat('#', C.NAME SEPARATOR ' ') FROM NOTIZEN A JOIN NOTIZEN_TAGS B ON A.ID = B.ID_NOTIZEN JOIN TAGS C ON B.ID_TAGS = C.ID WHERE A.ID = ?", [$_POST["ID"]]); 
+		SELECT group_concat('#', C.NAME SEPARATOR ' ') 
+		FROM NOTIZEN A 
+		JOIN NOTIZEN_TAGS B ON A.ID = B.ID_NOTIZEN 
+		JOIN TAGS C ON B.ID_TAGS = C.ID 
+		WHERE A.ID = ?", [$_POST["ID"]]); 
 		
 	}
 
 	# UPDATE
 	if(isset($_POST['SAVE'])){
+		function getTags($db, $sql, $parameters){
+			$q = $db->prepare($sql);
+			$q->execute($parameters);
+			return $q->fetchColumn();
+		}
+		
 		function updateData($db, $sql, $parameters){
 			$q = $db->prepare($sql);
 			$q->execute($parameters);
@@ -119,33 +133,71 @@
         $tagtext = $_POST['tags'];
         $tags = array();
 		$tags = explode(" ", $tagtext );
-
+		echo  "In Notizen_Tags schreiben - ";
 		for ($i = 0; $i<sizeof($tags); $i++){
-		# ignore: Ignoriert Fehler. UK auf name, also kein insert (und kein Fehler) bei Doppeleintrag
+			
+			# ignore: Ignoriert Fehler. UK auf name, also kein insert (und kein Fehler) bei Doppeleintrag
+		
 			# Unique Key über name verhindert Doppeleinträge
-					echo "Tag  Test <br>" . $tags[$i];
 			updateTags($db, "
 				INSERT IGNORE INTO TAGS (NAME) 
 				VALUES (REPLACE(?, '#', ''))", [$tags[$i]]);
-			
+
 			# Unique Key über ID_tags, ID_notizen verhindert Doppeleinträge
+			# NOTIZEN_TAGS
+			# Tags aus Input / Notiz
+			echo " Tag: ". $tags[$i];
 			updateTags ($db, "
-				insert ignore into notizen_tags (ID_tags, ID_notizen) values ((SELECT ID FROM TAGS ORDER BY ID DESC limit 1), ?)", [$_POST['notizen_id']]);
-		}	
+				insert ignore into notizen_tags (ID_tags, ID_notizen) values ((SELECT ID 
+						 FROM TAGS 
+						 WHERE NAME = ?), ?); COMMIT;", [$tags[$i], $_POST['notizen_id']]);
+		}
+
+		$tagtext2 = $_POST['tags'];
+		$tagtext2 = str_replace('#','',$tagtext2);
+		$tags2 = explode(" ", $tagtext2);	
+		echo "<br> Tags im Input: " . $tagtext2;		
+
+		# "Wenn beim Update ein Tag gelöscht wurde, dieses löschen. ";
+		# Tags aus DB holen
+		$tagsInDB = getTags($db, "
+			SELECT group_concat(C.NAME SEPARATOR ' ') 
+			FROM NOTIZEN A 
+			JOIN NOTIZEN_TAGS B ON A.ID = B.ID_NOTIZEN 
+			JOIN TAGS C ON B.ID_TAGS = C.ID 
+			WHERE A.ID = ?", [$_POST['notizen_id']]); 
+		echo "<br> Tags in DB: " . $tagsInDB;
+        $tagsInDBArray = array();		
+		$tagsInDBArray = explode(" ", $tagsInDB);
+
+		for ($i = 0; $i<sizeof($tagsInDBArray); $i++){
+			
+			# Wenn ein Tag in der DB ist, aber nicht in der Notiz, muss er in der DB gelöscht werden
+			if (!in_array($tagsInDBArray[$i], $tags2,  false)){
+				echo "<br> Nicht in Input-Tags gefunden: " . $tagsInDBArray[$i] . "</br>";	
+				updateData($db, "
+				DELETE FROM tags
+				WHERE name = ? AND 
+				ID NOT IN (SELECT ID_TAGS
+						   FROM NOTIZEN_TAGS
+						   WHERE ID_NOTIZEN <> ?)", 
+						   [$tagsInDBArray[$i], $_POST['notizen_id']]);
+			}
+		}
 		
-		# Weiterleitung
+
+		# Weiterleitung */
 		header("location:index.php");			
 	
 	}	
 	
-	# LÖSCHEN
-	function dropSingleValue($db, $sql, $parameters){
+	# DELETE
+
+	if(isset($_POST['DELETE'])){
+		function dropSingleValue($db, $sql, $parameters){
 		$q = $db->prepare($sql);
 		$q->execute($parameters);
-	}
-	
-	if(isset($_POST['DELETE'])){
-		
+		}		
 		# Text löschen
 		dropSingleValue($db, "
 		DELETE FROM text 
@@ -154,14 +206,17 @@
 					JOIN NOTIZEN_TEXT B ON A.ID = B.ID_NOTIZEN
 					JOIN TEXT C ON B.ID_TEXT = C.ID
 					WHERE A.ID =?)", [$_POST['notizen_id']]);
-		# Tags löschen
+		# Tags löschen, aber nicht, falls andere Notizen diese verwenden
 		dropSingleValue($db, "
 		DELETE FROM TAGS
-		WHERE ID = (SELECT  C.ID
+		WHERE ID IN (SELECT  C.ID
 					FROM NOTIZEN A
 					JOIN NOTIZEN_TAGS B ON A.ID = B.ID_NOTIZEN
-					JOIN TAGS C ON B.ID_NOTIZEN = C.ID
-					WHERE A.ID =?)", [$_POST['notizen_id']]);
+					JOIN TAGS C ON B.ID_TAGS = C.ID
+					WHERE A.ID =? AND
+					C.ID NOT IN (SELECT ID_TAGS
+								 FROM NOTIZEN_TAGS
+								 WHERE ID_NOTIZEN <> ?))", [$_POST['notizen_id'], $_POST['notizen_id']]);
 		
 		# Notiz löschen
 		dropSingleValue($db, "DELETE FROM notizen WHERE ID =?", [$_POST['notizen_id']]);
