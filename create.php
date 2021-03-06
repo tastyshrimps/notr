@@ -9,12 +9,12 @@
 		<div class="row">
 			<div class="col-auto">			
 				<form style="display: inline" action="index.php" method="get">
-					<button class="btn btn-danger">BACK</button>
+					<button class="btn btn-danger">&#10094;</button>
 				</form>		
 			</div>	
 			<div class="col-auto">
 				<form style="display: inline" action = "edit.php" method = "post"> 	
-					<input class="btn btn-danger" type="submit" name="SAVE" value="SAVE"/>
+					<input class="btn btn-danger" type="submit" name="SAVE" value="SPEICHERN"/>
 			</div>
 		</div>
 		<div class="row">

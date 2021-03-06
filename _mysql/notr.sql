@@ -57,7 +57,7 @@ CREATE TABLE `notizen` (
   `deleted` tinyint(1) NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=433 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `notizen` (
 
 LOCK TABLES `notizen` WRITE;
 /*!40000 ALTER TABLE `notizen` DISABLE KEYS */;
-INSERT INTO `notizen` VALUES (27,'Einkaufszettel',0,NULL,NULL,0,'0000-00-00 00:00:00'),(28,'Abendessen',0,NULL,NULL,0,'0000-00-00 00:00:00'),(29,'Arzttermin',0,NULL,NULL,0,'0000-00-00 00:00:00'),(35,'test',0,NULL,NULL,0,'0000-00-00 00:00:00'),(36,'wierd',0,NULL,NULL,0,'0000-00-00 00:00:00');
+INSERT INTO `notizen` VALUES (426,'Einkaufszettel Netto',0,NULL,NULL,0,'0000-00-00 00:00:00'),(427,'Baumarkt',0,NULL,NULL,0,'0000-00-00 00:00:00'),(428,'Oma Abendessen',0,NULL,NULL,0,'0000-00-00 00:00:00'),(432,'Nicht umgesetzte Ideen',0,NULL,NULL,0,'0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `notizen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,6 +81,7 @@ CREATE TABLE `notizen_tags` (
   `ID_tags` int(11) NOT NULL,
   `ID_notizen` int(11) NOT NULL,
   PRIMARY KEY (`ID_tags`,`ID_notizen`),
+  UNIQUE KEY `ID_tags` (`ID_tags`,`ID_notizen`),
   KEY `ID-tags` (`ID_tags`),
   KEY `ID-notizen` (`ID_notizen`),
   CONSTRAINT `FK_notizen-tags_notizen` FOREIGN KEY (`ID_notizen`) REFERENCES `notizen` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -94,7 +95,7 @@ CREATE TABLE `notizen_tags` (
 
 LOCK TABLES `notizen_tags` WRITE;
 /*!40000 ALTER TABLE `notizen_tags` DISABLE KEYS */;
-INSERT INTO `notizen_tags` VALUES (320,27),(322,28),(323,29),(324,35),(325,36);
+INSERT INTO `notizen_tags` VALUES (862,426),(862,427),(872,428),(899,428),(909,432),(917,427);
 /*!40000 ALTER TABLE `notizen_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,7 +123,7 @@ CREATE TABLE `notizen_text` (
 
 LOCK TABLES `notizen_text` WRITE;
 /*!40000 ALTER TABLE `notizen_text` DISABLE KEYS */;
-INSERT INTO `notizen_text` VALUES (27,24),(28,25),(29,26),(35,32),(36,33);
+INSERT INTO `notizen_text` VALUES (426,374),(427,375),(428,376),(432,380);
 /*!40000 ALTER TABLE `notizen_text` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,8 +137,9 @@ DROP TABLE IF EXISTS `tags`;
 CREATE TABLE `tags` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(25) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=326 DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=924 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +148,7 @@ CREATE TABLE `tags` (
 
 LOCK TABLES `tags` WRITE;
 /*!40000 ALTER TABLE `tags` DISABLE KEYS */;
-INSERT INTO `tags` VALUES (320,'essen'),(322,'erinnerung'),(323,'erinnerung'),(324,'test'),(325,'miep');
+INSERT INTO `tags` VALUES (862,'einkaufen'),(899,'essen'),(917,'hobby'),(909,'projekt'),(872,'termin');
 /*!40000 ALTER TABLE `tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +163,7 @@ CREATE TABLE `text` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `section` text NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=381 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,7 +172,7 @@ CREATE TABLE `text` (
 
 LOCK TABLES `text` WRITE;
 /*!40000 ALTER TABLE `text` DISABLE KEYS */;
-INSERT INTO `text` VALUES (24,'Tomaten'),(25,'Schnitzel'),(26,'Mittwoch 18.3.2021'),(32,'test'),(33,'abc');
+INSERT INTO `text` VALUES (374,'Netto\r\n- Eier\r\n- Bier\r\n- Wein'),(375,'Holz\r\nKleber'),(376,'14.03.2021\r\n- Schweinebraten'),(380,'- Listen\r\n- mehrere Notizenfelder pro Notiz\r\n- Erinnerungen\r\n- Passwortschutz\r\n- Bilder einfügen\r\n- Daten anhängen\r\n- Export als Textdatei');
 /*!40000 ALTER TABLE `text` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -183,4 +185,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-05 10:11:52
+-- Dump completed on 2021-03-06 13:05:46

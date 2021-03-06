@@ -9,13 +9,12 @@
         <input class="form-control" type="text" id="search" name="search" placeholder="Bitte Suchtext eingeben">
     </div>
     <div class="col-auto">
-		<button class="btn btn-danger" type="submit">Search</button>		
-        <!--<a href="notr_create?title=<?php $_GET['search'];?>"><button>Create</button></a>-->
+		<button class="btn btn-danger" type="submit"><img src="img/search.png" width=22px></button>		
     	 </form>
     </div>
     <div class="col-auto">
 		<form method="get" action="create.php">
-		<button class="btn btn-danger" type="submit">Create</button>
+		<button class="btn btn-danger" type="submit"><img src="img/new.png" width=22px></button>
 		 </form>
     </div>
   </div>
@@ -100,7 +99,7 @@
         echo'<div class="col-auto">'; 
 		
 		echo '<form method="post" action="edit.php?id='.$row['ID'].'" >';
-			echo '<button class="btn btn-danger" type="submit">Edit</button>';
+			echo '<button class="btn btn-danger" type="submit"><img src="img/edit.png" width=22px></img></button>';
 			echo '<input type="hidden" name="to_save" id="to_save" value="0"/>';
 			echo '<input type="hidden" name="ID" value="'.$row['ID_notizen'].'"/>';
 		echo '</form>';	
