@@ -13,8 +13,9 @@
     	 </form>
     </div>
     <div class="col-auto">
-		<form method="get" action="create.php">
-		<button class="btn btn-danger" type="submit"><img src="img/new.png" width=22px></button>
+		<form method="post" action="create.php" >
+		<button class="btn btn-danger" type="submit" name = "Create" >&#10010;</button>
+		<input type="hidden" name="to_save" id="to_save" value="0"/>
 		 </form>
     </div>
   </div>
