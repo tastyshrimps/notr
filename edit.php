@@ -135,6 +135,7 @@
 			$q->execute($parameters);
 		}
         $tagtext = $_POST['tags'];
+		$tagtext = str_replace('#','',$tagtext);		
         $tags = array();
 		$tags = explode(" ", $tagtext );
 		echo  "In Notizen_Tags schreiben - ";
@@ -201,7 +202,7 @@
 		
 
 		# Weiterleitung */
-		# header("location:index.php");			
+		header("location:index.php");			
 		echo "@@". $tags;
 	}	
 	
