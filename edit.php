@@ -44,6 +44,7 @@
 		}
 
         $tagtext = $_POST['tags'];
+		$tagtext = str_replace('#','',$tagtext);
         $tags = array();
 		$tags = explode(" ", $tagtext );
 		echo "Tagarray Test <br>" . $tags[0] . "@@" . $tags[1] . "@@" . sizeof($tags);
@@ -200,7 +201,7 @@
 		
 
 		# Weiterleitung */
-		header("location:index.php");			
+		# header("location:index.php");			
 		echo "@@". $tags;
 	}	
 	
