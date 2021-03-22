@@ -23,7 +23,7 @@
 		
 		# Umleiten auf nächste Seite
 		# Dies funktioniert nicht, weil nur action die Feldinhalte per Post übergeben kann, header aber nicht:
-		# header("location:edit.php");
+		header("location:edit.php");
 		# Problem bei action: Führt dieses PHP nicht aus
 		
 		
@@ -202,7 +202,7 @@
 		
 
 		# Weiterleitung */
-		header("location:index.php");			
+		# header("location:index.php");			
 		echo "@@". $tags;
 	}	
 	
@@ -221,6 +221,8 @@
 					JOIN NOTIZEN_TEXT B ON A.ID = B.ID_NOTIZEN
 					JOIN TEXT C ON B.ID_TEXT = C.ID
 					WHERE A.ID =?)", [$_POST['notizen_id']]);
+					
+				
 		# Tags löschen, aber nicht, falls andere Notizen diese verwenden
 		dropSingleValue($db, "
 		DELETE FROM TAGS
@@ -232,18 +234,18 @@
 					C.ID NOT IN (SELECT ID_TAGS
 								 FROM NOTIZEN_TAGS
 								 WHERE ID_NOTIZEN <> ?))", [$_POST['notizen_id'], $_POST['notizen_id']]);
-
+		
+		# Tags löschen davor, damit das sich auf NOTIZEN_TAGS beziehen kann
 		dropSingleValue($db, "
 		DELETE FROM NOTIZEN_TAGS
-		WHERE ID_TAGS IN (
-					SELECT  C.ID
-					FROM NOTIZEN A
-					JOIN NOTIZEN_TAGS B ON A.ID = B.ID_NOTIZEN
-					JOIN TAGS C ON B.ID_TAGS = C.ID
-					WHERE A.ID =?)", [$_POST['notizen_id']]);								 
+		WHERE ID_NOTIZEN = ?",[$_POST['notizen_id']]);						 
+
+								 
 		# Notiz löschen
 		dropSingleValue($db, "DELETE FROM notizen WHERE ID =?", [$_POST['notizen_id']]);
 		header("location:index.php");
+		
+		
 		
 
 	}
